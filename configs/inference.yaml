@@ -1,0 +1,65 @@
+# experiment name
+exp_name: "inference"
+task: "inference"
+random_seed: 20202001
+
+# train type
+trainer_type: "none"
+dataset_type: "inference"
+
+# train configuration for some specific
+clip_len: 1
+input_id_feature: True
+num_clips: 1
+num_inputs: 1
+
+# network configuration and defination
+model:
+  output_nc: 3
+  # appearance network
+  net_appearance:
+    model_name: "resnext"
+    model_type: "encoder"
+    load_pretrain: False
+    resume: True
+    pretrained_model: "checkpoints/appearance_model.pth"
+    init: "gaussian"
+    init_gain: 0.02
+  
+  # non-motion network
+  net_motion:
+    model_name: "fan"
+    model_type: "encoder"
+    resume: True
+    pretrained_model: "checkpoints/motion_model.pth"
+    init: "gaussian"
+    init_gain: 0.02
+    pose_dim: 6
+    eye_dim: 6
+    emo_dim: 30
+
+  # audio network
+  net_audio:
+    model_name: "ressesync"
+    model_type: "encoder"
+    resume: True
+    pretrained_model: "checkpoints/audio_model.pth"
+    init: "gaussian"
+    init_gain: 0.02
+    n_mel_T: 4
+  
+  # generator network
+  net_generator:
+    model_name: "modulate"
+    model_type: "generator"
+    resume: True
+    pretrained_model: "checkpoints/generator_model.pth"
+    init: "gaussian"
+    init_gain: 0.02
+    style_dim: 2590
+    feature_encoded_dim: 2590
+    style_feature_loss: True
+    
+
+
+

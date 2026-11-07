@@ -55,7 +55,7 @@ def make_model(cfg):
             # load pretrained model
             model_file = cfg.model.net_appearance.pretrained_model
             # init_dict = {k:v for k, v in torch.load(model_file).items()}
-            model_dict = torch.load(model_file)
+            model_dict = torch.load(model_file, weights_only=True)
             init_dict = net_appearance.state_dict()
             for k in model_dict:
                 if "fc" in k and not "model" in k:
@@ -76,7 +76,7 @@ def make_model(cfg):
         if cfg.model.net_motion.resume:
             # load pretrained model
             model_file = cfg.model.net_motion.pretrained_model
-            model_dict = torch.load(model_file)
+            model_dict = torch.load(model_file, weights_only=True)
             init_dict = net_motion.state_dict()
             key_list = list(set(model_dict.keys()).intersection(set(init_dict.keys())))
             for k in key_list:
@@ -98,7 +98,7 @@ def make_model(cfg):
         if cfg.model.net_audio.resume:
             # load pretrained model
             model_file = cfg.model.net_audio.pretrained_model
-            model_dict = torch.load(model_file)
+            model_dict = torch.load(model_file, weights_only=True)
             init_dict = net_audio.state_dict()
             for k in model_dict:
                 if "fc" in k and not "model" in k:
@@ -121,7 +121,7 @@ def make_model(cfg):
             # load pretrained model
             model_file = cfg.model.net_generator.pretrained_model
             init_dict = net_generator.state_dict()
-            model_dict = torch.load(model_file)
+            model_dict = torch.load(model_file, weights_only=True)
             for k in init_dict:
                 init_dict[k] = model_dict[k]
                 
